@@ -26,7 +26,6 @@
 @extends('layout')
 
 
-
 @section('content')
 
 	<h1>Niveles:</h1>

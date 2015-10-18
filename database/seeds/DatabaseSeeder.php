@@ -75,20 +75,20 @@ class DatabaseSeeder extends Seeder
 
 
 
-
         // $randomIndex = $this->faker->numberBetween(1,4);
-
-        factory(App\User::class, 10)->create()->each( function( $u ) {
+        factory(App\User::class, 10)->create()->each( function( $u, $key ) {
             
             // create levels and relatinship    
             $u->levels()->save(factory(App\Level::class)
                 ->create([
-                    'user_id' => $u->id,
+                    'user_id'       => $u->id,
+                    'level_index'   => $key + 1,
                 ])
             );
             
             // create roles and user relationshipt    
             $u->roles()->save( App\Role::find(rand(1,4)) );    
+            
         });
 
 
