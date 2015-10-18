@@ -82,131 +82,6 @@
         	</table>
 		
 
-			@section('page-scripts')
-				
-				{{-- fetch Level data restfully from route admin/levels/getjson --}}
-				<script>
-				// (function($){
-					var $table = $('#data-table');
-
-
-					// after load tables has been render	
-					$table.on('load-success.bs.table', function( data ) {
-
-						// sortable ui tr 
-					    $( "#sortable-items" ).sortable({
-					    	placeholder: "ui-state-highlight", // placeholder display
-					    	items: "tr:not(.detail-view)", // exclude
-					    	handle: ".sortHandler", // handler
-
-					    });
-					 
-					 
-					    $( "#sortable-items tr" ).disableSelection();						
-					
-
-						//add class to sorth
-					    $('tbody tr').filter( function() {
-
-					    	$('td:last', this).addClass('sortHandler');
-					    
-					    });
-
-					});
-
-
-					// format the column title
-					function titleColumnFormat ( value, data )
-					{
-						
-						return '<a href="/admin/levels/' +  data.id  +'/edit">' + value + '</a>';
-					
-					}
-
-				    
-					// format for row details (Lessons)
-				    function detailFormatter(index, row) 
-				    {
-				        var html = [];
-
-				      	if ( row.lessons.length > 0 ) {
-
-					        $.each(row, function (key, value) {
-					           	
-				            	// html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-					           	
-					           	if ( key === 'lessons' &&  key.length > 0 ){
-					           		
-					           		html.push('<h4>Lecciones Asignadas:</h4>');	
-
-					           		html.push('<ol>');	
-					           		$.each( value, function ( lessonKey, lesson ) {
-
-					           			html.push('<li data-lesson-index="' + lesson.id + '" ><a href="' + lesson.id + '">' + lesson.title + '</a></li>' );
-
-					           		})
-
-					           		html.push('</ol>');
-					           		
-					           	} 	
-
-					        });
-				      		
-				      	}else{
-
-				      		html.push('<div class="clearfix alert alert-info" role="alert"><span>No existen Lecciones agregadas a este Nivel</span>  <a class="btn btn-primary btn-sm pull-right" href="#">Agregar Leccion a este Nivel<i class="fa fa-plus"></i></a> </div>');	
-
-				      	}
-
-				        return html.join('');
-				    }
-
-
-					// format the Acciones column
-					function actionsFormat () 
-					{
-						return [
-				            
-				            '<a class="edit" href="javascript:void(0)" title="edit">',
-				            '<i class="glyphicon glyphicon-edit"></i>',
-				            '</a>  ',
-
-				            '<a class="remove" href="javascript:void(0)" title="Remove">',
-				            '<i class="glyphicon glyphicon-trash"></i>',
-				            '</a>'
-				        
-				        ].join('');
-					}
-
-
-
-					function sortHandlerFormat ()
-					{
-						return [
-							'<i class="glyphicon glyphicon-move">',
-						].join('');
-					}
-
-
-				    window.actionsEvents = {
-				        
-				        'click .like': function (e, value, row, index) {
-				            alert('You click like action, row: ' + JSON.stringify(row));
-				        },
-
-				        'click .remove': function (e, value, row, index) {
-				            $table.bootstrapTable('remove', {
-				                field: 'id',
-				                values: [row.id]
-				            });
-				        }
-				    };
-
-				// })(jQuery);    
-				</script>
-
-			@stop
-
 		@endif
 
 
@@ -215,5 +90,130 @@
 	</div>
 	
 
+
+@stop
+
+@section('page-scripts')
+
+{{-- fetch Level data restfully from route admin/levels/getjson --}}
+<script>
+// (function($){
+	var $table = $('#data-table');
+
+
+	// after load tables has been render	
+	$table.on('load-success.bs.table', function( data ) {
+
+		// sortable ui tr 
+	    $( "#sortable-items" ).sortable({
+	    	placeholder: "ui-state-highlight", // placeholder display
+	    	items: "tr:not(.detail-view)", // exclude
+	    	handle: ".sortHandler", // handler
+
+	    });
+	 
+	 
+	    $( "#sortable-items tr" ).disableSelection();						
+	
+
+		//add class to sorth
+	    $('tbody tr').filter( function() {
+
+	    	$('td:last', this).addClass('sortHandler');
+	    
+	    });
+
+	});
+
+
+	// format the column title
+	function titleColumnFormat ( value, data )
+	{
+		
+		return '<a href="/admin/levels/' +  data.id  +'/edit">' + value + '</a>';
+	
+	}
+
+    
+	// format for row details (Lessons)
+    function detailFormatter(index, row) 
+    {
+        var html = [];
+
+      	if ( row.lessons.length > 0 ) {
+
+	        $.each(row, function (key, value) {
+	           	
+            	// html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+	           	
+	           	if ( key === 'lessons' &&  key.length > 0 ){
+	           		
+	           		html.push('<h4>Lecciones Asignadas:</h4>');	
+
+	           		html.push('<ol>');	
+	           		$.each( value, function ( lessonKey, lesson ) {
+
+	           			html.push('<li data-lesson-index="' + lesson.id + '" ><a href="' + lesson.id + '">' + lesson.title + '</a></li>' );
+
+	           		})
+
+	           		html.push('</ol>');
+	           		
+	           	} 	
+
+	        });
+      		
+      	}else{
+
+      		html.push('<div class="clearfix alert alert-info" role="alert"><span>No existen Lecciones agregadas a este Nivel</span>  <a class="btn btn-primary btn-sm pull-right" href="#">Agregar Leccion a este Nivel<i class="fa fa-plus"></i></a> </div>');	
+
+      	}
+
+        return html.join('');
+    }
+
+
+	// format the Acciones column
+	function actionsFormat () 
+	{
+		return [
+            
+            '<a class="edit" href="javascript:void(0)" title="edit">',
+            '<i class="glyphicon glyphicon-edit"></i>',
+            '</a>  ',
+
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-trash"></i>',
+            '</a>'
+        
+        ].join('');
+	}
+
+
+
+	function sortHandlerFormat ()
+	{
+		return [
+			'<i class="glyphicon glyphicon-move">',
+		].join('');
+	}
+
+
+    window.actionsEvents = {
+        
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+        },
+
+        'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
+        }
+    };
+
+// })(jQuery);    
+</script>
 
 @stop
