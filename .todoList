@@ -1,0 +1,25 @@
+
+-----------------
+ TO DO LIST
+-----------------
+
+Handeling errors (i.e levels/edit route with an id that does not exist, catch the NotFoundHttpException exeption )
+	- redirect back and display flash message
+
+
+
+level index needs to be unique,  
+   - db migration to unique row
+   - migration and seed change it to create unique inputs for this row
+ 
+
+
+Add many to many relation sheeps between Levels and assigned users to that level 
+   - add db migration and create table level_assigned_users : this will contain any assigned users to this level
+   - add the middleware for it, only assigned users can edit the level thats has been assigned to
+   - for lessons inside of the Level, only assigned users or owner can edit the lessons
+ 
+
+
+
+
