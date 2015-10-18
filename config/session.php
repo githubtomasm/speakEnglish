@@ -136,7 +136,7 @@ return [
     */
 
     // 'domain' => null,
-    'domain' => 'learn-portal.app',
+    'domain' => 'speakenglish.dev',
 
     /*
     |--------------------------------------------------------------------------
