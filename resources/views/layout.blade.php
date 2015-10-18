@@ -55,9 +55,18 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.0/bootstrap-table.min.js"></script>
    
 
-        {{-- boot angular --}}
-        <script src="http://code.angularjs.org/1.0.2/angular.min.js"></script>
+
+        {{--angular 1.4 y sortable plugin--}}
+
+        <script type="text/javascript" src="/assets/angular.min.js"></script>
+        <script type="text/javascript" src="/assets/sortable.js"></script>
+
+
+        {{-- boot angular 
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>    
+        --}}
+
 
 
 

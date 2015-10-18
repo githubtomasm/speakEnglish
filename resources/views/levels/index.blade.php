@@ -215,5 +215,5 @@
 
 // })(jQuery);    
 </script>
-
+<script type="text/javascript" src="/assets/level-table.js"></script>
 @stop
