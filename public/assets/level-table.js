@@ -30,7 +30,7 @@ listaApp.controller('li-ctrl',['$scope','$http',function($scope,$http){ //creamo
 				jsonPOST=[];
 				for (i=0;i<$scope.jsonData.length;i++){
 					if(tempo[i].id != $scope.jsonData[i].id){
-						jsonPOST.push({level_Id:$scope.jsonData[i].id,level_index:$scope.jsonData[i].level_index});
+						jsonPOST.push({level_Id:$scope.jsonData[i].id,level_index:$scope.jsonData[i].level_index,user_id:$scope.jsonData[i].user_id});
 					} 
 				}
 				/*
