@@ -65,13 +65,13 @@
 				 	<tr ng-hide="loadDocument" >
 				 		<td colspan="5"><center>Loading</center></td>
 				 	</tr>
-				</thead>
-				<tbody id="listaTabla" class="hiddenItem" ui-sortable="sortableOptions" ng-model="jsonData">
-					<tr ng-show='sinNiveles'>
+					<tr class="hiddenItem" id="noHayNiveles">
 						<td colspan="5">
 						No existen niveles aún: <a href="/admin/levels/create">Crear un nuevo Nivel</a>
 						</td>
 					</tr>
+				</thead>
+				<tbody id="listaTabla" class="hiddenItem" ui-sortable="sortableOptions" ng-model="jsonData">
 					<tr id="{[{'levelPos'+$index}]}" ng-repeat="level in jsonData">
 						<td ><button  ng-click="showLessons(this.data-boton)">+</button></td>
 						<td  style="cursor:move" >{[{$index+1}]}</td>
