@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 namespace App\Http\Controllers;
 
 #import controller Level class
@@ -27,6 +24,7 @@ use App\Http\Controllers\Controller;
 
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Redirect;
 
 # use in store method
 # use Request;
@@ -43,85 +41,24 @@ class LevelsController extends Controller
     public function __construct ()
     {   
 
-        $this->middleware('auth');
-
         # get access to global user vars define in Controller App\Http\Controllers::class
         parent::__construct();  
     }
 
 
-   
-	
-
-
-    /**
-	* Display all levels
-	* load the Levels view
-	* name space imported at the top use App\Level
-	*/
-    public function frontEndIndex()
-    {
-    	//return 'Display levels veiew';
-    	# refrence the complete namespace for the Level Class
-    	// $levels = \App\Level::all();
-
-    	# get all data from the levels table
-    	//$levels = Level::all(); 
-
-        # get all data from levels table in DESC order
-        # another way will be Level::orderBy('published_at', 'desc')->get();
-        // $levels = Level::latest('published_at')->get();
-        // $levels = Level::orderBy('level_index', 'ASC')->get();
-
-        #Do not display Levels set for future date publishment 
-        # $levels = Level::orderBy('level_index', 'ASC')
-        #            ->where('published_at', '<=', Carbon::now()) // display only levels that pusblist_at time es equoal or grather than now. 
-        #                ->get();
-
-        /**
-         * using scope to get the same resutl as above
-         * this part "->where('published_at', '<=', Carbon::now())" it's been abstacted to Level model in a published method  
-         * this will help in situation where need to replacate this same logic and keep clean the controller
-         */
-        $levels = level::orderBy('level_index', 'ASC')->published()->get();
-
-
-
-    	/**
-    	* return a view inside levels call index.blade.php
-    	*	pass to that view the array levels with the compact format
-    	*	an other way view('view_name')->with('levels', $levels);
-    	*/
-    	return view('levels.index', compact('levels'));
-    }
-
-
-
 
 
 
     /**
-    * Display single level
-    */
-    public function show($id)
+     * Levels show Backend
+     */
+    public function index ()
     {
-
-        # using elocuent get from the levels table the id pass through the route    
-        # $level = Level::find($id);
         
-        # find: get the id from levels table
-        # OrFail: veryfy if the id exist in the table if not fails and througs expetion 404
-        $level = Level::findOrFail($id);
-
-
-        /**
-        * change to be accept a slug and id, when id create validation for  load the level and is_number like drupal
-        * 
-        */
-        return view('levels.show', compact('level'));
+        $levels = level::orderBy('level_index', 'ASC')->get();
+        
+        return view('levels.index', compact('levels'));     
     }
-
-
 
 
 
@@ -135,29 +72,33 @@ class LevelsController extends Controller
 
         # TODO: listen and catch any expection 
         ######################################    
+        // Incremental API -03-Level 2 Responses and Codes
+        // flash 
+        // error system handler
 
-        # will be use as current level_index for sorting the levels
-        $currentLevelIndex = Level::lastLelveIndex();    
 
+        $level = Level::find( $id );
 
-        # users with teacher role
-        $teachers = User::getUsersByRoleName('teacher');
+        if ( ! $level ) {
 
+            return Redirect::route('admin.level.index');
+
+        }
 
         # un assigned lessons
         $unAssignedLessons = Lesson::all()->where('level_id', null);
-        
-        # get the pass levels
-        $level = Level::findOrFail($id);
-        
+      
+
+        # assigned lessons
+        $assignedLessons = $level->lessons()->get(['id', 'title', 'description']);
+
+
         return view('levels.edit')->with([
             'level'                 => $level,
-            'currentLevelIndex'     => $currentLevelIndex,            
-            'teachers'              => $teachers,
             'unAssignedLessons'     => $unAssignedLessons,
+            'assignedLessons'       => $assignedLessons
         ]);
     }
-
 
 
 
@@ -253,30 +194,21 @@ class LevelsController extends Controller
 
 
 
-
-
-
-
-
     /**
-     * Levels show Backend
-     */
-    public function index ()
-    {
-        $levels = level::orderBy('level_index', 'ASC')->get();
-        
-        return view('levels.index', compact('levels'));     
-    }
-
-
-
-
-
-    // serv json
+     * Index rest request 
+     * @return json array, all levels with corresponding  lessons
+     */   
     public function getLevels ()
     {
+
+
+        // fetch all levels with respective lessons assign to each level         
+        $levels = level::with(array( 'lessons' => function ( $query ) {
+
+            $query->addSelect(array('id', 'level_id', 'title', 'description'));
         
-        $levels = level::with('lessons')->orderBy('level_index', 'ASC')->get(['id', 'level_index', 'title', 'description']);
+        }))->orderBy('level_index', 'ASC')->get(['id', 'user_id', 'level_index', 'title', 'description']);
+        
 
         return $levels->toJson();
     }
@@ -344,5 +276,79 @@ class LevelsController extends Controller
 
         return redirect('levels');
     }
+
+
+
+
+    /* TO REMOVE ******************************************************/
+
+
+    /**
+    * Display all levels
+    * load the Levels view
+    * name space imported at the top use App\Level
+    */
+    public function frontEndIndex()
+    {
+        //return 'Display levels veiew';
+        # refrence the complete namespace for the Level Class
+        // $levels = \App\Level::all();
+
+        # get all data from the levels table
+        //$levels = Level::all(); 
+
+        # get all data from levels table in DESC order
+        # another way will be Level::orderBy('published_at', 'desc')->get();
+        // $levels = Level::latest('published_at')->get();
+        // $levels = Level::orderBy('level_index', 'ASC')->get();
+
+        #Do not display Levels set for future date publishment 
+        # $levels = Level::orderBy('level_index', 'ASC')
+        #            ->where('published_at', '<=', Carbon::now()) // display only levels that pusblist_at time es equoal or grather than now. 
+        #                ->get();
+
+        /**
+         * using scope to get the same resutl as above
+         * this part "->where('published_at', '<=', Carbon::now())" it's been abstacted to Level model in a published method  
+         * this will help in situation where need to replacate this same logic and keep clean the controller
+         */
+        $levels = level::orderBy('level_index', 'ASC')->published()->get();
+
+
+
+        /**
+        * return a view inside levels call index.blade.php
+        *   pass to that view the array levels with the compact format
+        *   an other way view('view_name')->with('levels', $levels);
+        */
+        return view('levels.index', compact('levels'));
+    }
+
+
+
+
+
+
+    /**
+    * Display single level DELETE
+    */
+    public function show($id)
+    {
+
+        # using elocuent get from the levels table the id pass through the route    
+        # $level = Level::find($id);
+        
+        # find: get the id from levels table
+        # OrFail: veryfy if the id exist in the table if not fails and througs expetion 404
+        $level = Level::findOrFail($id);
+
+
+        /**
+        * change to be accept a slug and id, when id create validation for  load the level and is_number like drupal
+        * 
+        */
+        return view('levels.show', compact('level'));
+    }
+
 
 }

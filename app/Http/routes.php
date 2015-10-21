@@ -46,19 +46,93 @@ Route::get('profile/{user}/edit', 'ProfileController@edit');
 
 
 
+# NOTE
+############################
+
+# check if routes work normally
+# check levels create form
+# add route names
+# check edit form and remove partial add form body direct to the view
+# remove auth middleware from controllers
+# add admin middle ware
+# add only by ajax access to the rest routes like getjson 
+# middleware for store
+# flash messages
+
 
 /**
- * Levels  
+ * Route for Backend
+ * Backend prefix  
  */
-Route::get('admin/levels/create', 			'LevelsController@create');
-Route::get('admin/levels/{levels}/edit', 	'LevelsController@edit');
-Route::post('admin/levels', 				'LevelsController@store'); 
-Route::get('admin/levels', 					'LevelsController@index'); 
+Route::group([
+		'prefix' => 'admin',
+		'middleware' => 'auth',		
+	], 	
+
+	function () {
+		
+		Route::get('levels/create', [ 
+			'as' 	=> 'admin.level.create', 
+			'uses' 	=> 'LevelsController@create',
+		]);
+	
+
+		Route::get('levels/{levels}/edit', [
+			'as' 	=> 'admin.level.edit', 
+			'uses' 	=> 'LevelsController@edit',
+		]);
+	
+
+		Route::post('levels',[
+			'as' 	=> 'admin.level.store',
+			'uses'	=> 'LevelsController@store',
+		]); 
 
 
-Route::get('admin/levels/getjson',			'levelsController@getLevels');
-Route::get('admin/levels/{levels}',			'LevelsController@show'); 
-// Route::resource('levels', 'LevelsController');
+		Route::get('levels',[
+			'as' 	=> 'admin.level.index',
+			'uses' 	=> 'LevelsController@index',
+		]); 
+	
+
+		Route::patch('levels/{levels}',	 [
+			'as'	=> 'admin.level.update',	
+			'uses' 	=> 'LevelsController@update',
+		]);
+	
+
+		############################################
+		# REMOVE -> replace with api (working on it)
+		############################################
+		Route::get('levels/getjson', [
+			'as'	=> 'admin.level.json', 		
+			'uses' 	=> 'LevelsController@getLevels'
+		]);
+
+
+		##############################
+		# REMOVE -> dont need it
+		##############################
+		Route::get('levels/{levels}',[
+			'as'	=> 'admin.level.show',
+			'uses' 	=> 'LevelsController@show',
+		]); 
+
+
+		/**
+		 * Levels Api
+		 * Api to retrive data through ajax
+		 * @return json
+		 */
+		//Route::get('api/{model}/index','ApiController@index');
+
+	}
+);
+
+
+
+
+
 
 
 

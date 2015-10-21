@@ -46,6 +46,7 @@ class Level extends Model
 	 */
 	public static function lastLelveIndex()
 	{
+		# parent refers to the model class 	
 		$currentIndex = parent::latest('id')->first();
 		
 		( $currentIndex ) 
