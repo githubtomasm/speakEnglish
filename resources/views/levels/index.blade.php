@@ -30,11 +30,10 @@
 
 	<h1>Niveles:</h1>
 	<hr>	
-
 	
 	<div class="row">
 		<div class="col-xs-12">	
-
+{{--
 		@if ( $levels->isEmpty() )
 
 			<h3>No existen niveles creados:</h3>
@@ -44,14 +43,53 @@
 				<i class="fa fa-plus"></i>
 			</a>
 
-		@else
+		@else--}}
+			<style type="text/css">
+			.hiddenItem{
+				display: none;
+			}
+
+			</style>
+
+			<div ng-app="listaApp" ng-controller="li-ctrl">
+				
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th width="5%"></th>
+						<th width="5%">Indice</th>
+						<th width="30%">Título</th>
+						<th width="40%">Descripción</th>
+						<th width="20">Acciones</th>
+					</tr>
+				 	<tr ng-hide="loadDocument" >
+				 		<td colspan="5"><center>Loading</center></td>
+				 	</tr>
+					<tr class="hiddenItem" id="noHayNiveles">
+						<td colspan="5">
+						No existen niveles aún: <a href="/admin/levels/create">Crear un nuevo Nivel</a>
+						</td>
+					</tr>
+				</thead>
+				<tbody id="listaTabla" class="hiddenItem" ui-sortable="sortableOptions" ng-model="jsonData">
+					<tr id="{[{'levelPos'+$index}]}" ng-repeat="level in jsonData">
+						<td ><button  ng-click="showLessons(this.data-boton)">+</button></td>
+						<td  style="cursor:move" >{[{$index+1}]}</td>
+						<td >{[{level.title}]}</td>
+						<td >{[{level.description}]}</td>
+						<td ><button>Edit</button><button>Delete</button></td>	
+					</tr>
+				</tbody>
+			</table>
+			</div>
+
 
 			{{-- http://stackoverflow.com/questions/18614695/sort-or-rearrange-rows-of-a-table-in-angularjs-drag-and-drop --}}
 			{{-- http://jsfiddle.net/SSSUUUSSS/Bsusr/1/ --}}
 			{{-- http://wenzhixin.net.cn/p/bootstrap-table/docs/examples.html#table-select --}}
 			{{-- http://wenzhixin.net.cn/p/bootstrap-table/docs/examples.html#disabled-checkbox-table --}}
 			{{-- http://bootstrap-table.wenzhixin.net.cn/ --}}
-
+			{{--
 			<table id="data-table"
                	data-toggle="table"
                	data-detail-view="true"
@@ -76,12 +114,12 @@
 		            </tr>
 	            </thead>
 	            
-	            {{-- <tbody ui:sortable ></tbody> --}}
+	            {{-- <tbody ui:sortable ></tbody> 
 	            <tbody id="sortable-items" ></tbody>
         	</table>
 		
-
-		@endif
+        	
+		@endif--}}
 
 
 
@@ -94,7 +132,7 @@
 
 @section('page-scripts')
 
-{{-- fetch Level data restfully from route admin/levels/getjson --}}
+{{-- fetch Level data restfully from route admin/levels/getjson 
 <script>
 // (function($){
 	var $table = $('#data-table');
@@ -213,6 +251,6 @@
     };
 
 // })(jQuery);    
-</script>
-
+</script> --}}
+<script type="text/javascript" src="/assets/level-table.js"></script>
 @stop
