@@ -51,7 +51,7 @@
 
 			</style>
 
-			<div ng-app="listaApp" ng-controller="li-ctrl" ng-init="init()">
+			<div ng-app="listaApp" ng-controller="li-ctrl">
 				
 			<table class="table table-hover">
 				<thead>
@@ -67,8 +67,13 @@
 				 	</tr>
 				</thead>
 				<tbody id="listaTabla" class="hiddenItem" ui-sortable="sortableOptions" ng-model="jsonData">
+					<tr ng-show='sinNiveles'>
+						<td colspan="5">
+						No existen niveles aún: <a href="/admin/levels/create">Crear un nuevo Nivel</a>
+						</td>
+					</tr>
 					<tr id="{[{'levelPos'+$index}]}" ng-repeat="level in jsonData">
-						<td ><button ng-click="showLessons({[{$index+','+level.id}]})">+</button></td>
+						<td ><button  ng-click="showLessons(this.data-boton)">+</button></td>
 						<td  style="cursor:move" >{[{$index+1}]}</td>
 						<td >{[{level.title}]}</td>
 						<td >{[{level.description}]}</td>

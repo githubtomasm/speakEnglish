@@ -29,15 +29,20 @@ listaApp.controller('li-ctrl',['$scope','$http',function($scope,$http){ //creamo
 		}
     }
 	$scope.jsonData=[{id:0,level_index:0,title:"",description:"",lessons:[]}];
-	
+	$scope.sinNiveles=false;
 	$http({
 		method:'GET',
 		url:'/admin/levels/getjson'
 	}).then(function(response){
-		$scope.jsonData=response.data.map(function(level){
+		$scope.init();
+		if (response.data.length==0){
+			$scope.sinNiveles=true;
+		}else{
+			$scope.jsonData=response.data.map(function(level){
 			var obj=level;
 			return obj;
 		});
+		}
 	});
 
 	$scope.showLessons=function(indexList,idLevel){
