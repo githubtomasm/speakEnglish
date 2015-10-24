@@ -22,6 +22,7 @@ class LevelRequest extends Request
     public function authorize()
     {
 
+        /*
         $canEditRoles = Role::getCanEditRoles();
         
         $userRoles = Auth::user()->hasRole( $canEditRoles );
@@ -32,8 +33,10 @@ class LevelRequest extends Request
             return true;
 
         }
+        */
 
-        return false;
+        // redirect back with flash msg
+        return true;
     }
 
     /**

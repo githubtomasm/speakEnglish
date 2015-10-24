@@ -1,4 +1,39 @@
 
+WORKFLOW
+--------------------------------
+
+
+LEVELS:
+done->	1 - middle ware roles can edit.
+		2 - finish update
+				- udpate main info
+				- update new lessons
+
+		3 - Delete levels
+				- make sure all is working
+
+
+FLASH MESSAGE
+
+
+API:
+	1 - API
+	2 - CRUD
+	3 - proper middle wares and response to ajax requests
+
+
+
+5 - LESSONS		 		 			
+
+
+6 - ASSETS
+
+
+
+
+
+
+
 -----------------
  TO DO LIST
 -----------------
@@ -23,3 +58,34 @@ Add many to many relation sheeps between Levels and assigned users to that level
 
 
 
+
+EDITAR LECCION WORKFLOW
+https://laracasts.com/discuss/channels/general-discussion/eloquent-sync-associate?page=1
+http://laravel.io/forum/02-02-2014-is-there-a-shortcut-for-syncing-one-to-many-relationships
+--------------------------------------------------------------------------------------------
+
+get the id of the level been edited
+get the request past by the form
+validate the data pass
+
+check if the level exist
+udpate the basic info
+update lessons of level
+
+LESSONS: 
+    brand add new 
+        -> save the lesson and add the relationship 
+    add from pool,  
+        -> find the lesson and update the relationship ( update to be level_id != 0 )
+    remove
+        -> find the lesson and remove the relationsip ( level_id = 0 )
+    
+    WORKFLOW:
+        post to lessons/{id}/udpate        
+        lesson object must include and array of object wich key id the action for each case
+            lessons : {
+                
+                new     : array [ lessons objects ]
+                pool    : array [ lessons objects ]
+                remove  : array [ lessons objects ]
+            } 

@@ -41,8 +41,11 @@ class LevelsController extends Controller
     public function __construct ()
     {   
 
+        $this->middleware('auth');
+        $this->middleware('rolesCanEdit'); 
+
         # get access to global user vars define in Controller App\Http\Controllers::class
-        parent::__construct();  
+        parent::__construct(); 
     }
 
 
@@ -81,7 +84,10 @@ class LevelsController extends Controller
 
         if ( ! $level ) {
 
-            return Redirect::route('admin.level.index');
+            return Redirect::route('admin.level.index')->with([
+                'flash_message'             => 'Nivel no existe',
+                'flash_message_important'   => true,
+            ]);
 
         }
 
@@ -150,7 +156,7 @@ class LevelsController extends Controller
         // session()->flash('flash_message', 'Nivel Creado exitosamente'); 
 
 
-        return redirect()->action('LevelsController@indexBackEnd')->with([
+        return redirect()->reoute('admin.level.index')->with([
             'flash_message'             => 'Nivel Creado exitosamente',
             'flash_message_important'   => true,
         ]);
@@ -194,27 +200,6 @@ class LevelsController extends Controller
 
 
 
-    /**
-     * Index rest request 
-     * @return json array, all levels with corresponding  lessons
-     */   
-    public function getLevels ()
-    {
-
-
-        // fetch all levels with respective lessons assign to each level         
-        $levels = level::with(array( 'lessons' => function ( $query ) {
-
-            $query->addSelect(array('id', 'level_id', 'title', 'description'));
-        
-        }))->orderBy('level_index', 'ASC')->get(['id', 'user_id', 'level_index', 'title', 'description']);
-        
-
-        return $levels->toJson();
-    }
-
-
-
 
     /**
      * Create Levels 
@@ -222,7 +207,6 @@ class LevelsController extends Controller
      */
     public function create( )
     {
-
 
         # will be use as current level_index for sorting the levels
         $currentLevelIndex = Level::lastLelveIndex();    
@@ -258,24 +242,87 @@ class LevelsController extends Controller
      *
      * @return redirect to page
      */
-    public function update($id, LevelRequest $request)
+    public function update( $id , LevelRequest $request)
     {
 
-        $level = Level::findOrFail($id);
+        $level = Level::find($id);
+
+        if( ! $level ){
+
+            return Redirect::route('admin.level.index')->with([
+                'flash_message'             => 'Nivel Creado exitosamente',
+                'flash_message_important'   => true,                
+            ]);
+
+        }
 
         $updateLevel = $request->all();
 
-        //$level->udpate($request->all());
-        
         $level->title           = $updateLevel['title'];
         $level->description     = $updateLevel['description'];
-        $level->published_at    = $updateLevel['published_at'];
-        $level->level_index     = $updateLevel['level_index'];
-
         $level->save();
 
-        return redirect('levels');
+
+        // remove lessons
+        if ( isset( $updateLevel['remove'] ) && count($updateLevel['remove']) ){
+
+            foreach ($updateLevel['remove'] as $lessonId => $value ) {
+
+                $lesson = Lesson::find($lessonId);
+
+                if( ! $lesson ) {
+
+                    return Redirect::route('admin.level.edit', [$id])->with([
+                        'flash_message' => 'Problema eliminar leccion con id = ' . $lessonId,
+                    ]);
+                
+                }
+
+                $lesson->level_id = null;
+                $lesson->save();
+            }
+        }
+
+
+       
+
+        
+        return redirect()->route('admin.level.index')->with([
+            'flash_message'             => 'Nivel Actualizado exitosamente exitosamente',
+            'flash_message_important'   => true,
+        ]);
+        
+
     }
+
+
+
+
+
+    
+
+
+    /**
+     * Index rest request 
+     * @return json array, all levels with corresponding  lessons
+     */   
+    public function getLevels ()
+    {
+
+
+        // fetch all levels with respective lessons assign to each level         
+        $levels = level::with(array( 'lessons' => function ( $query ) {
+
+            $query->addSelect(array('id', 'level_id', 'title', 'description'));
+        
+        }))->orderBy('level_index', 'ASC')->get(['id', 'user_id', 'level_index', 'title', 'description']);
+        
+
+        return $levels->toJson();
+    }
+
+
+
 
 
 

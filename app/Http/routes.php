@@ -1,13 +1,6 @@
 <?php
 
 /**
- * SITE FRONT END PAGES
- */
-Route::get('/', 'PagesController@home');
-
-
-
-/**
  * ADMINISTRATOR
  */
 Route::get('admin', 'AdminController@index');
@@ -64,10 +57,7 @@ Route::get('profile/{user}/edit', 'ProfileController@edit');
  * Route for Backend
  * Backend prefix  
  */
-Route::group([
-		'prefix' => 'admin',
-		'middleware' => 'auth',		
-	], 	
+Route::group([ 'prefix' => 'admin' ], 
 
 	function () {
 		
@@ -129,6 +119,28 @@ Route::group([
 	}
 );
 
+
+
+
+
+
+/**
+ * SITE FRONT END PAGES
+ */
+Route::get('/', [ 
+	'as' => 'home',  
+	'uses' => 'PagesController@home'
+]);
+
+
+Route::get('levels', [
+	'as' => 'front-levels',
+	function () {
+
+		return 'Niveles Front end';
+
+	}
+]);
 
 
 
