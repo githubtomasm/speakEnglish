@@ -3,8 +3,23 @@ var listaApp = angular.module('listaApp', ['ui.sortable']).config(function($inte
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 }); //creamos la nueva app con diferente nomenclatura para las expresiones
 
+listaApp.directive( 'goClick', function ( $window ) {
+  return function ( scope, element, attrs ) {
+    var path;
 
-listaApp.controller('li-ctrl',['$scope','$http',function($scope,$http){ //creamos el controlador de la tabla pasamos http para hacer el get y el post de información
+    attrs.$observe( 'goClick', function (val) {
+      path = val;
+    });
+
+    element.bind( 'click', function () {
+      scope.$apply( function () {
+        $window.document.location.pathname= path ;
+      });
+    });
+  };
+});
+
+listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,$window){ //creamos el controlador de la tabla pasamos http para hacer el get y el post de información
 /*   variables locales  */
 	var isChange=false; //variable pibote para asegurar si despues de un drag & drop realmente hubo cambios
 	var tempo=[]; // aqui almacenaremos el array de niveles antes de un cambio,

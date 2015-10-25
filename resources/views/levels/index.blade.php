@@ -80,7 +80,7 @@
             			<td  style="cursor:move" >{[{$index+1}]}</td>
 						<td >{[{level.title}]}</td>
 						<td >{[{level.description}]}</td>
-						<td ><button href="/admin/lessons/">Edit</button><button>Delete</button></td>	
+						<td ><button go-click="/admin/levels/{[{level.id}]}/edit">Edit</button><button>Delete</button></td>	
 					</tr>
 					<tr ng-if="level.expanded" ng-repeat-end="">
             			<td  colspan="5">
@@ -90,7 +90,7 @@
             				<span ng-if="level.lessons.length == 0">
             					<center>
             					No hay lecciones asociadas a este Nivel
-            					<button>Editar Nivel</button>
+            					<button go-click="/admin/levels/{[{level.id}]}/edit">Editar Nivel</button>
             					</center>
             				</span>
             			</td>
