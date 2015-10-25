@@ -13,6 +13,11 @@ listaApp.controller('li-ctrl',['$scope','$http',function($scope,$http){ //creamo
 	$scope.jsonData=[{id:0,level_index:0,title:"",description:"",lessons:[]}];
 	
 	$scope.sortableOptions={ //opciones sobre la funcionabilidad del ui-sortable de angular
+		start:function(x,y){
+			console.log(x,y);
+
+		},
+		disabled:false,
 		update:function(){//esta funcion solo se acciona si hay cambios en el orden
 			//console.log("updating");
 			isChange=true;//mandamos a decir que hubo cambios
