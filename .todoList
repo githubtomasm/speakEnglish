@@ -1,10 +1,7 @@
 
-WORKFLOW
---------------------------------
-
-
 LEVELS:
-done->	1 - middle ware roles can edit.
+--------------------------------
+    1 - middle ware roles can edit.
 		2 - finish update
 				- udpate main info
 				- update new lessons
@@ -13,13 +10,19 @@ done->	1 - middle ware roles can edit.
 				- make sure all is working
 
 
+
 FLASH MESSAGE
+-----------------------------------
 
 
-API:
+
+REST API:
+-----------------------------------
 	1 - API
 	2 - CRUD
 	3 - proper middle wares and response to ajax requests
+
+
 
 
 
@@ -89,3 +92,22 @@ LESSONS:
                 pool    : array [ lessons objects ]
                 remove  : array [ lessons objects ]
             } 
+
+
+
+
+
+
+
+UPDATED BY table
+----------------
+need to think it over
+
+
+use same table for all related updates to, lessons, levels, assets
+tables schema
+  - entity      -> string (   lesson, level, asset )
+  - entity_id   -> integer (  id of the entity beeing update )
+  - user_id     -> ingeger (  id of ther user performing the update )      
+  - dates       -> longtext(  )
+

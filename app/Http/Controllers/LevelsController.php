@@ -26,13 +26,6 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Redirect;
 
-# use in store method
-# use Request;
-#use App\Http\Requests\CreateLevelRequest;
-
-
-# validation for level create
-//use Requests;
 
 class LevelsController extends Controller
 {
@@ -146,9 +139,9 @@ class LevelsController extends Controller
 
                 $lesson->level()->associate( $level );
 
+                $lesson->save();
             }
 
-            $lesson->save();
         }
 
 
@@ -284,15 +277,27 @@ class LevelsController extends Controller
         }
 
 
-       
+        
+        // add lessons from pool
+        if ( isset( $updateLevel['pool'] ) && count($updateLevel['pool']) ){
+
+            foreach( $updateLevel['pool'] as  $key => $lessonId ){
+            
+                $lesson = Lesson::find( $lessonId );
+
+                $lesson->level()->associate( $level );
+
+                $lesson->save();        
+
+            }
+
+        }
 
         
         return redirect()->route('admin.level.index')->with([
             'flash_message'             => 'Nivel Actualizado exitosamente exitosamente',
             'flash_message_important'   => true,
         ]);
-        
-
     }
 
 

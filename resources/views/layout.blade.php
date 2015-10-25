@@ -17,6 +17,10 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
+        {{-- sweet alert --}}
+       <link rel="stylesheet" href="/assets/vendor/sweetalert-master/dist/sweetalert.css">
+
+    
         @yield('page-styles')
 
     </head>
@@ -61,6 +65,8 @@
         <script type="text/javascript" src="/assets/angular.min.js"></script>
         <script type="text/javascript" src="/assets/sortable.js"></script>
         
+        {{-- sweet alert         --}}
+        <script src='/assets/vendor/sweetalert-master/dist/sweetalert.min.js'></script>
 
         {{-- boot angular 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>

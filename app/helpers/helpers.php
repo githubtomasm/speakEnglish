@@ -1,1 +1,10 @@
 <?php 
+
+
+
+function flash ( $message )
+{
+
+	
+
+}
