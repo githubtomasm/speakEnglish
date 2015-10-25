@@ -72,13 +72,28 @@
 					</tr>
 				</thead>
 				<tbody id="listaTabla" class="hiddenItem" ui-sortable="sortableOptions" ng-model="jsonData">
-					<tr id="{[{'levelPos'+$index}]}" ng-repeat="level in jsonData">
-						<td ><button  ng-click="showLessons(this.data-boton)">+</button></td>
-						<td  style="cursor:move" >{[{$index+1}]}</td>
+					<tr id="{[{'levelPos'+$index}]}" ng-repeat-start="level in jsonData" >
+						<<td>
+			              <button ng-if="level.expanded" ng-click="level.expanded = false; ortableOptions.disabled=false">-</button>
+			              <button ng-if="!level.expanded" ng-click="level.expanded = true; sortableOptions.disabled=true">+</button>
+			            </td>
+            			<td  style="cursor:move" >{[{$index+1}]}</td>
 						<td >{[{level.title}]}</td>
 						<td >{[{level.description}]}</td>
 						<td ><button>Edit</button><button>Delete</button></td>	
 					</tr>
+					<tr ng-if="level.expanded" ng-repeat-end="">
+            			<td  colspan="5">
+            				<ol ng-if="level.lessons.length > 0">
+            					<li ng-repeat="lessons in level.lessons"> {[{ lessons.title }]}</li>
+            				</ol>
+            				<span ng-if="level.lessons.length < 0">
+            					No hay lecciones asociadas a este Nivel <br>
+            					<button>Editar Nivel</button>
+            				</span>
+            			</td>
+      
+          			</tr>
 				</tbody>
 			</table>
 			</div>
