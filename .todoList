@@ -112,3 +112,19 @@ tables schema
   - user_id     -> ingeger (  id of ther user performing the update )      
   - dates       -> longtext(  )
 
+
+
+
+
+# NOTE
+############################
+
+# check if routes work normally
+# check levels create form
+# add route names
+# check edit form and remove partial add form body direct to the view
+# remove auth middleware from controllers
+# add admin middle ware
+# add only by ajax access to the rest routes like getjson 
+# middleware for store
+# flash messages

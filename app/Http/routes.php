@@ -1,17 +1,10 @@
 <?php
 
-/**
- * ADMINISTRATOR
- */
-Route::get('admin', 'AdminController@index');
-
-
+// Route::get('admin', 'AdminController@index');
 
 
 /**
- * ------------------------
  * LARAVEL AUTH controllers
- * ------------------------
  * login
  * social users
  * register
@@ -39,20 +32,6 @@ Route::get('profile/{user}/edit', 'ProfileController@edit');
 
 
 
-# NOTE
-############################
-
-# check if routes work normally
-# check levels create form
-# add route names
-# check edit form and remove partial add form body direct to the view
-# remove auth middleware from controllers
-# add admin middle ware
-# add only by ajax access to the rest routes like getjson 
-# middleware for store
-# flash messages
-
-
 /**
  * Route for Backend
  * Backend prefix  
@@ -61,6 +40,17 @@ Route::group([ 'prefix' => 'admin' ],
 
 	function () {
 		
+
+		Route::get('/', [
+			'as' 	=> 'admin.dashboard',
+			'uses'	=> 'AdminController@index',
+		]);		
+
+
+
+		/**
+		 * LEVELS ROUTES
+		 */
 		Route::get('levels/create', [ 
 			'as' 	=> 'admin.level.create', 
 			'uses' 	=> 'LevelsController@create',
@@ -119,6 +109,18 @@ Route::group([ 'prefix' => 'admin' ],
 	}
 );
 
+
+
+
+Route::group( [ 'prefix' => 'api' ],
+
+	function () {
+
+
+
+	}
+
+);
 
 
 
