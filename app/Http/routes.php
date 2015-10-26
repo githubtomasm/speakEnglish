@@ -40,12 +40,10 @@ Route::group([ 'prefix' => 'admin' ],
 
 	function () {
 		
-
 		Route::get('/', [
 			'as' 	=> 'admin.dashboard',
 			'uses'	=> 'AdminController@index',
 		]);		
-
 
 
 		/**
@@ -90,6 +88,15 @@ Route::group([ 'prefix' => 'admin' ],
 		]);
 
 
+
+
+		Route::get('lessons/getjson', [
+			'as' 	=> 'admin.lesson.json',
+			'uses'	=> 'LessonsController@getLessons',
+		]);
+
+
+
 		##############################
 		# REMOVE -> dont need it
 		##############################
@@ -97,6 +104,8 @@ Route::group([ 'prefix' => 'admin' ],
 			'as'	=> 'admin.level.show',
 			'uses' 	=> 'LevelsController@show',
 		]); 
+
+
 
 
 		/**

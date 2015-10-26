@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+Use App\Lesson;
+
 class LessonsController extends Controller
 {
 
@@ -17,7 +19,8 @@ class LessonsController extends Controller
 	 */
 	public function index ( $level_slug )
 	{
-		return 'Display a list of all the lessons that belongs to a level';	
+		// return 'Display a list of all the lessons that belongs to a level';	
+		return view('lessons.index');
 	}
 
 	/**
@@ -42,5 +45,10 @@ class LessonsController extends Controller
 
 
 
-
+	public function  getLessons ()
+	{	
+		
+		$lessons = Lesson::with('Level')->get();
+		return $lessons->toJson();
+	}
 }

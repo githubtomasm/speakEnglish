@@ -28,12 +28,13 @@
 
 @section('content')
 
+
 	<h1>Niveles:</h1>
 	<hr>	
 	
 	<div class="row">
 		<div class="col-xs-12">	
-{{--
+		{{--
 		@if ( $levels->isEmpty() )
 
 			<h3>No existen niveles creados:</h3>
