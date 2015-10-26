@@ -142,7 +142,7 @@ class LevelsController extends Controller
         # flash message level has been created
         flash()->success('Exito', 'Nivel Creado');
 
-        return redirect()->route('admin.levels.index');
+        return redirect()->route('admin.level.index');
 
 
         /*
