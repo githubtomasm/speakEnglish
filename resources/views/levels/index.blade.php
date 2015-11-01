@@ -72,7 +72,7 @@
 						</td>
 					</tr>
 				</thead>
-				<tbody id="listaTabla" class="hiddenItem" ui-sortable="sortableOptions" ng-model="jsonData">
+				<tbody id="listaTabla" ui-sortable="sortableOptions" ng-model="jsonData">
 					<tr id="{[{'levelPos'+$index}]}" ng-repeat-start="level in jsonData" >
 						<<td>
 			              <button ng-if="level.expanded" ng-click="level.expanded = false; sortableOptions.disabled=false">-</button>
