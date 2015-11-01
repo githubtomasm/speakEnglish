@@ -272,7 +272,7 @@ class ApiLevelsController extends ApiController
 
         }
 
-        return $this->responseSuccess('Nivel Borrado exitosamente')
+        return $this->responseSuccess('Nivel Borrado exitosamente');
 
     }
 
