@@ -34,14 +34,15 @@
 							<th style="cursor:pointer" ng-click="order='created_at'">Created At</th>
 							<th style="cursor:pointer" ng-click="order='publised_at'">Published At</th>
 							<th style="cursor:pointer" ng-click="order='updated_at'">Edited At</th>
+							<th style="cursor:default">Acciones</th>
 						</tr>
 
 						<tr ng-hide="loadDocument" >
-					 		<td colspan="10"><center>Loading</center></td>
+					 		<td colspan="11"><center>Loading</center></td>
 					 	</tr>
 
 						<tr class="hiddenItem" id="noHayLecciones">
-							<td colspan="10">
+							<td colspan="11">
 							No hay Lecciones <a href="/admin/lessons/create">Crear una nueva Lección</a>
 							</td>
 						</tr>
@@ -56,10 +57,12 @@
 								<span ng-if="lesson.level_id==0">N/A</span><span ng-if="lesson.level_id!=0">{[{lesson.level_id}]}</span>
 							</td>
 							<td>
-								{[{ lesson.title }]}
+								<input type="text" ng-change="lesson.change=true" ng-model="lesson.title" ng-if="lesson.titleEditing" ng-enter="lesson.titleEditing=false;fastEdit(lesson,'title')"> 
+								<span ng-if="!lesson.titleEditing" ng-dblclick="lesson.titleEditing=true">{[{ lesson.title }]}</span>
 							</td>
 							<td>
-								{[{ lesson.description }]}
+								<input type="text" ng-change="lesson.change=true" ng-model="lesson.description" ng-if="lesson.descriptionEditing" ng-enter="lesson.descriptionEditing=false;fastEdit(lesson,'description')"> 
+								<span ng-if="!lesson.descriptionEditing" ng-dblclick="lesson.descriptionEditing=true">{[{ lesson.description }]}</span>
 							</td>
 							<td>
 								{[{ lesson.video_id }]}
@@ -68,7 +71,8 @@
 								{[{ lesson.user_id }]}
 							</td>
 							<td>
-								{[{ lesson.status_id }]}
+								<input type="text" ng-change="lesson.change=true" ng-model="lesson.status_id" ng-if="lesson.statusEditing" ng-enter="lesson.statusEditing=false;fastEdit(lesson,'status_id')"> 
+								<span ng-if="!lesson.statusEditing" ng-dblclick="lesson.statusEditing=true">{[{ lesson.status_id }]}</span>
 							</td>
 							<td>
 								{[{ lesson.created_at }]}
@@ -78,6 +82,10 @@
 							</td>
 							<td>
 								{[{ lesson.updated_at }]}
+							</td>
+							<td>
+								<button>&#x270E;</button>
+								<button>&#x2718;</button>
 							</td>
 						</tr>
 					</tbody>

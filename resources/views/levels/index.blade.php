@@ -74,14 +74,14 @@
 				</thead>
 				<tbody id="listaTabla" ui-sortable="sortableOptions" ng-model="jsonData">
 					<tr id="{[{'levelPos'+$index}]}" ng-repeat-start="level in jsonData" >
-						<<td>
+						<td>
 			              <button ng-if="level.expanded" ng-click="level.expanded = false; sortableOptions.disabled=false">-</button>
 			              <button ng-if="!level.expanded" ng-click="level.expanded = true; sortableOptions.disabled=true">+</button>
 			            </td>
             			<td  style="cursor:move" >{[{$index+1}]}</td>
 						<td >{[{level.title}]}</td>
 						<td >{[{level.description}]}</td>
-						<td ><button go-click="/admin/levels/{[{level.id}]}/edit">Edit</button><button>Delete</button></td>	
+						<td ><button go-click="/admin/levels/{[{level.id}]}/edit">&#x270E;</button><button>&#x2718;</button></td>	
 					</tr>
 					<tr ng-if="level.expanded" ng-repeat-end="">
             			<td  colspan="5">
