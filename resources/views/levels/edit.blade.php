@@ -12,7 +12,7 @@
 
 
 
-	{!! Form::model( $level, [ 'route' => array('admin.level.update', $level->id ),  'method' => 'PATCH']) !!}
+	{!! Form::model( $level, [ 'route' => array('admin.levels.update', $level->id ),  'method' => 'PATCH']) !!}
 
 		{{-- update basic info --}}
 		<div class="row">

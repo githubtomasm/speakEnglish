@@ -6,119 +6,117 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-
-use App\Level;
-
-
 class ApiController extends Controller
 {
 
 
 
     /**
-     * Display a listing of the resource.
+     * CREATE A NEW METHOD FOR SUCCESS 
+     * VALIDATE IF THERE IS ANY DATA TO SEND BACK TO AFTER RESPONSE 200
      *
-     * @return \Illuminate\Http\Response
      */
-    public function index( $model )
+
+
+    protected $statusCode = 200;
+
+
+    public function getStatusCode ()
+    {
+        return $this->statusCode;
+    }
+
+
+    public function setStatusCode ( $statusCode )
+    {
+        $this->statusCode = $statusCode;
+        
+        return $this;
+
+    }
+
+
+
+
+    public function responseSuccess ( $message = 'Procesado', $data = [] )
+    {
+        return $this->setStatusCode(200)->respondSuccessfully( $data, $message );
+    }
+
+
+
+
+    /**
+     * Generate an error response, with 404 status
+     *
+     * @return mixed   
+     */
+    public function responseNotFound ( $message = 'No encontrado')
+    {
+        return $this->setStatusCode(404)->respondWithError( $message );
+    }   
+
+
+
+
+    /**
+     * Generate an response for error 500
+     *
+     * @return mixed
+     */
+    public function respondInternalError ( $message = 'Error en la Aplicacion')
+    {
+        return $this->setStatusCode(500)->respondWithError( $message );   
+    }
+
+
+
+
+    /**
+     * Return json to be output by API
+     * 
+     * @return json
+     */
+    public function respond ($data, $headers = [])
+    {   
+        return response()->json( $data, $this->getStatusCode(), $headers );
+    }
+
+
+
+
+
+    public function respondSuccessfully ( $data, $message )
     {
 
-        switch ( $model ) {
- 
-            //admin/api/level/index
-            case 'levels':
-                
-                
-                // fetch all levels with respective lessons assign to each level         
-                $levels = level::with(array( 'lessons' => function ( $query ) {
-
-                    $query->addSelect(array('id', 'level_id', 'title', 'description'));
-                
-                }))->orderBy('level_index', 'ASC')->get(['id', 'level_index', 'title', 'description']);
-                
-                
-
-                return Response::json([
-                    'data' => $levels,
-                ], 200 );
-
-
-            break;
+        return $this->respond([
+            'data'  => $data,
             
- 
+            'succes' => [
+                'message'       => $message,
+                'status_code'   => $this->getStatusCode()
+            ],
 
-            default:
-            break;
-        }
-
+        ]);
     }
+
 
 
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Generic error response
      */
-    public function create()
+    public function respondWithError ( $message )   
     {
-        //
+        return $this->respond([
+            'error' => [
+                'message'       => $message,
+                'status_code'   => $this->getStatusCode(),
+            ]
+        ]);          
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -1,3 +1,90 @@
+PENDIENTE:
+json para level_index
+  -agregar rules en LevelsRequest class
+
+
+
+formato para level index update in INDEX page 
+levels = [
+  0 => [
+    id0    => 1,
+    index0 => 5
+  ],
+
+  1 => [
+    id1     => 2,
+    index1  => 8,   
+  ],
+
+  2 => [
+    id2     => 4,
+    index2  => 5,   
+  ],
+
+  ....
+
+]
+
+
+
+
+json para agregar lecciones
+  -agregar rules en LessonsRequest class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  CREAR LECCIONES DENTRO DE NIVLES:        
+  --------------------------------
+  
+  single request for each new lesson added
+  
+  1 - fetch the data from ajax 
+  2 - validate new data, requeried fields
+  4 - validate if level exist
+  3 - create the new lesson 
+  5 - asociate the lesson with the level
+  6 - response back acord.
+      - if is status surccess
+          - return the new lesson in the response with it level_index 
+
+               - id which resource is making the request
+                STORE
+                    -> store action one single request to store ( all data will be sent simultaniasly)
+                        
+                        -> basic info ( all ways )
+                                required levels, title and description
+                        
+                        -> pool lesson ( optional )
+                                make sure that the lesson exists
+                        
+                        -> new lesson ( optional )
+                                lesson's required files and
+                                attach lesson to level 
+                                create lesson 
+                    
+
+                UDPATE
+                    -> this can be save in multiple actions, can be done s.  
+                        -> Basic info.
+                        -> pool lesson
+                        -> new lesson   
+
+            - pass the apropieate rules
+
+
+
+
 
 LEVELS:
 --------------------------------
@@ -90,8 +177,8 @@ LESSONS:
             lessons : {
                 
                 new     : array [ lessons objects ]
-                pool    : array [ lessons objects ]
-                remove  : array [ lessons objects ]
+                udpate  : array [ lessons objects ]
+     
             } 
 
 
@@ -128,3 +215,6 @@ tables schema
 # add only by ajax access to the rest routes like getjson 
 # middleware for store
 # flash messages
+
+
+

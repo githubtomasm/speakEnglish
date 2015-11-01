@@ -42,8 +42,7 @@ class LevelsController extends Controller
     }
 
 
-
-
+ 
 
     /**
      * Levels show Backend
@@ -51,10 +50,8 @@ class LevelsController extends Controller
     public function index ()
     {
         
-        $levels = level::orderBy('level_index', 'ASC')->get();
-     
+        // $levels = level::orderBy('level_index', 'ASC')->get();
         // flash()->error('Testing flash api', 'Message title');
-
         return view('levels.index', compact('levels'));     
     }
 
@@ -74,7 +71,7 @@ class LevelsController extends Controller
 
             flash()->error('Error', 'No se encontro el nivel que esta tratando de accesar'); 
 
-            return Redirect::route('admin.level.index');
+            return Redirect::route('admin.levels.index');
 
         }
 
@@ -109,6 +106,7 @@ class LevelsController extends Controller
     public function store( LevelRequest $request)
     { 
 
+
         # get the request object from the validation method defined
         $input = $request->all();
 
@@ -142,12 +140,12 @@ class LevelsController extends Controller
         # flash message level has been created
         flash()->success('Exito', 'Nivel Creado');
 
-        return redirect()->route('admin.level.index');
+        return redirect()->route('admin.levels.index');
 
 
         /*
         // session()->flash('flash_message', 'Nivel Creado exitosamente'); 
-        return redirect()->reoute('admin.level.index')->with([
+        return redirect()->reoute('admin.levels.index')->with([
             'flash_message'             => 'Nivel Creado exitosamente',
             'flash_message_important'   => true,
         ]);
@@ -195,6 +193,7 @@ class LevelsController extends Controller
 
     /**
      * Create Levels 
+     * No 
      * @return view
      */
     public function create( )
@@ -211,7 +210,6 @@ class LevelsController extends Controller
         # un assigned lessons
         $unAssignedLessons = Lesson::all()->where('level_id', null);
         // $unAssignedLessons = $lesson->all()->where('level_id', null);
-
 
 
         return view('levels.create')->with([
@@ -238,13 +236,15 @@ class LevelsController extends Controller
     public function update( $id , LevelRequest $request)
     {
 
+        dd($request->all());
+
         $level = Level::find($id);
 
         if( ! $level ){
 
             flash()->error('Error', 'No se encontro el Nivel que estas tratando de Editar');
 
-            return Redirect::route('admin.level.index');
+            return Redirect::route('admin.levels.index');
 
         }
 
@@ -266,7 +266,7 @@ class LevelsController extends Controller
 
                     flash()->error('Error', 'Problema eliminar leccion id = ' . $lessonId );    
 
-                    return Redirect::route('admin.level.edit', [$id]);
+                    return Redirect::route('admin.levels.edit', [$id]);
                 
                 }
 
@@ -289,7 +289,7 @@ class LevelsController extends Controller
 
                     flash()->error('Error', 'No se encuentra la leccion que esta trantado de agregar id = ' . $lessonId );    
 
-                    return Redirect::route('admin.level.edit', [$id]);
+                    return Redirect::route('admin.levels.edit', [$id]);
                 
                 }
 
@@ -299,12 +299,12 @@ class LevelsController extends Controller
                 $lesson->save();        
 
             }
-
         }
 
 
+
         flash()->success('Exito', 'Nivel Actualizado exitosamente exitosamente');
-        return redirect()->route('admin.level.index');
+        return redirect()->route('admin.levels.index');
 
     }
 

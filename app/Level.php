@@ -2,11 +2,11 @@
 
 namespace App;
 
-
-
 use Illuminate\Database\Eloquent\Model;
 
 use Carbon\Carbon;
+
+use App\Lesson;
 
 /**
 * this reprecent a table in the dabase table name Lavels

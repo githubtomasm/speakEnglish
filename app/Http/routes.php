@@ -1,15 +1,8 @@
 <?php
 
-// Route::get('admin', 'AdminController@index');
-
-
 /**
  * LARAVEL AUTH controllers
- * login
- * social users
- * register
- * psw reset
- * logout
+ * login , social users, register, psw reset, logout
  */
 Route::get('login', 	'Auth\AuthController@getLogin');
 Route::post('login', 	'Auth\AuthController@postLogin');
@@ -32,6 +25,9 @@ Route::get('profile/{user}/edit', 'ProfileController@edit');
 
 
 
+
+
+
 /**
  * Route for Backend
  * Backend prefix  
@@ -50,31 +46,38 @@ Route::group([ 'prefix' => 'admin' ],
 		 * LEVELS ROUTES
 		 */
 		Route::get('levels/create', [ 
-			'as' 	=> 'admin.level.create', 
+			'as' 	=> 'admin.levels.create', 
 			'uses' 	=> 'LevelsController@create',
 		]);
 	
 
 		Route::get('levels/{levels}/edit', [
-			'as' 	=> 'admin.level.edit', 
+			'as' 	=> 'admin.levels.edit', 
 			'uses' 	=> 'LevelsController@edit',
 		]);
 	
 
 		Route::post('levels',[
-			'as' 	=> 'admin.level.store',
+			'as' 	=> 'admin.levels.store',
 			'uses'	=> 'LevelsController@store',
 		]); 
 
 
 		Route::get('levels',[
-			'as' 	=> 'admin.level.index',
+			'as' 	=> 'admin.levels.index',
 			'uses' 	=> 'LevelsController@index',
 		]); 
+
 	
+		# update levels index
+		Route::put('levels/{levels}', [
+			'as' 	=> 'admin.levels.update.index',
+			'uses'	=> 'LevelsController@updateIndex',
+		]);
+
 
 		Route::patch('levels/{levels}',	 [
-			'as'	=> 'admin.level.update',	
+			'as'	=> 'admin.levels.update',	
 			'uses' 	=> 'LevelsController@update',
 		]);
 	
@@ -83,7 +86,7 @@ Route::group([ 'prefix' => 'admin' ],
 		# REMOVE -> replace with api (working on it)
 		############################################
 		Route::get('levels/getjson', [
-			'as'	=> 'admin.level.json', 		
+			'as'	=> 'admin.levels.json', 		
 			'uses' 	=> 'LevelsController@getLevels'
 		]);
 
@@ -101,7 +104,7 @@ Route::group([ 'prefix' => 'admin' ],
 		# REMOVE -> dont need it
 		##############################
 		Route::get('levels/{levels}',[
-			'as'	=> 'admin.level.show',
+			'as'	=> 'admin.levels.show',
 			'uses' 	=> 'LevelsController@show',
 		]); 
 
@@ -120,15 +123,20 @@ Route::group([ 'prefix' => 'admin' ],
 
 
 
-
-Route::group( [ 'prefix' => 'api' ],
+/**
+ * Rest API 
+ */
+Route::group( [ 'prefix' => 'api/v1' ],
 
 	function () {
 
+		Route::put('levels', ['uses' => 'ApiLevelsController@updaIndex']);
+		
+		Route::resource('levels', 'ApiLevelsController', ['except' => array( 'show' )]);
 
+		Route::resource('lessons', 'ApiLessonsController');		
 
 	}
-
 );
 
 
