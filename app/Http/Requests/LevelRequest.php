@@ -80,8 +80,8 @@ class LevelRequest extends Request
 
                         foreach ($inputs['levels'] as $key => $level) {
 
-                            $rules['id']        => 'required',
-                            $rules['index']     => 'required',
+                            $rules['id']        = 'required';
+                            $rules['index']     = 'required';
 
                         }
 
@@ -109,7 +109,7 @@ class LevelRequest extends Request
                     # 
                     if( isset($inputs['update']) ){
 
-                        $rules['update']  = 'required'
+                        $rules['update']  = 'required';
 
                     }
 

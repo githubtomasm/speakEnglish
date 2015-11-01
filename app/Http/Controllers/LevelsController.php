@@ -5,27 +5,16 @@ namespace App\Http\Controllers;
 #import controller Level class
 
 use App\Level;
-
 use App\Role;
-
 use App\User;
-
 use App\Lesson;
-
 use App\Http\Requests;
-
 use App\Http\Requests\LevelRequest;
-
 use Illuminate\Http\Request;
-
 use Illuminate\HttpResponse; 
-
 use App\Http\Controllers\Controller;
-
 use Carbon\Carbon;
-
 use Illuminate\Support\Facades\Redirect;
-
 
 class LevelsController extends Controller
 {
@@ -50,8 +39,6 @@ class LevelsController extends Controller
     public function index ()
     {
         
-        // $levels = level::orderBy('level_index', 'ASC')->get();
-        // flash()->error('Testing flash api', 'Message title');
         return view('levels.index', compact('levels'));     
     }
 
@@ -142,50 +129,6 @@ class LevelsController extends Controller
 
         return redirect()->route('admin.levels.index');
 
-
-        /*
-        // session()->flash('flash_message', 'Nivel Creado exitosamente'); 
-        return redirect()->reoute('admin.levels.index')->with([
-            'flash_message'             => 'Nivel Creado exitosamente',
-            'flash_message_important'   => true,
-        ]);
-        */
-
-
-        /**
-         * NOTE
-         * Laravel FORM REQUEST could be use directly in the controller vor validating simple forms not throug the request class
-         */
-
-
-        # gets super globals $_POSTS and $_GETS
-        // $input = Request::all('title'); // get just the input with name attr =  title
-        
-        # fetch the inputs
-        // $input = Request::all();
-
-        /**
-         * adding data to db with eloquent
-         */  
-        #adding inputs one by one
-        #$level  = new Level;
-        #$level->title = $input['title']
-
-        /*
-        $level = new Level([
-            'user_id'       =>  $input['user_id'],
-            'title'         =>  $input['title'],
-            'description'   =>  $input['description'],
-            'published_at'  =>  $input['published_at'],
-            'level_index'   =>  $input['level_index'],
-        ]);
-
-
-        if( $level->save() ){
-            # redirect to levels page
-            return redirect('levels');
-        }
-        */    
     }
 
 
@@ -236,7 +179,6 @@ class LevelsController extends Controller
     public function update( $id , LevelRequest $request)
     {
 
-        dd($request->all());
 
         $level = Level::find($id);
 
@@ -339,6 +281,46 @@ class LevelsController extends Controller
 
 
 
+    public function destroy ( $id )
+    {
+        
+        $level = Level::find($id);
+
+        if( ! $level  ){
+
+            return $this->responseNotFound('Nivel no encontrado');
+
+        }
+
+
+        $lessons = $level->lessons()->get();
+
+        foreach ($lessons as $lesson ) {
+
+            $lesson->level_id = null;
+
+        }
+
+        $level->delete();
+        
+        flash()->success('Exito', 'Nivel Borrado');
+
+    }
+
+
+
+
+    public function delete ()
+    {
+        
+    }
+
+
+
+
+
+
+
 
     /* TO REMOVE ******************************************************/
 
@@ -409,6 +391,5 @@ class LevelsController extends Controller
         */
         return view('levels.show', compact('level'));
     }
-
 
 }
