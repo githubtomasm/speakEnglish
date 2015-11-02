@@ -29,7 +29,7 @@ class CreateLessonsTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('no action');
-            $table->foreign('level_id')->references('id')->on('levels')->onDelete('no action');
+            $table->foreign('level_id')->references('id')->on('levels')->onDelete('set null');
             // $table->foreign('status_id')->references('id')->on('tags')->onDelete('no action');    
         });
     }

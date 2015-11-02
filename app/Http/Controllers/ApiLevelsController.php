@@ -274,12 +274,7 @@ class ApiLevelsController extends ApiController
     {
 
 
-
-        $inputs = $request->all();
-
-        $level = Level::findorFail($id);
-
-        
+        $level = Level::find($id);
 
         if( ! $level  ){
 
@@ -288,37 +283,32 @@ class ApiLevelsController extends ApiController
         }
 
 
-        $lessons = $level->lessons()->get();
-
-        if( $lessons ){
-
-            foreach ($lessons as $lesson ) {
-
-                $lesson->level_id = null;
-
-            }
-            
-        }
+        $level->delete();
 
 
-
-
-
+        $inputs = $request->all();
+        
+        # update the levels indexes;
         if( $inputs && count($inputs) ){
 
             foreach ($inputs as $key => $currentLevel ) {
-                
-                $level = Level::findOrFail($currentLevel['id']);
 
-                $level->level_index = $currentLevel['index'];                  
+                dd($currentLevel);
+                
+                $level = Level::findOrFail($currentLevel->id);
+
+                $level->level_index = $currentLevel->index;                  
 
             }
 
         }
+        
+
+        # return levels array to repopulate table
+        $levels = $this->getAllLevels();        
 
 
-
-        return $this->responseSuccess('Nivel Borrado exitosamente');
+        return $this->responseSuccess('Nivel Borrado exitosamente', $levels);
 
     }
 
