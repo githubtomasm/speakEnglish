@@ -47,11 +47,22 @@ listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,
 				for(i=0;i<$scope.jsonData.length;i++){//con este bucle igualamos la posicion de la tabla (a travez de la posicion $index) a la variable level_index
 					$scope.jsonData[i].level_index=(i+1);
 				}
-				jsonPOST=[];
+				var jsonPOSTtemp=[];
 				for (i=0;i<$scope.jsonData.length;i++){
 					if(tempo[i].id != $scope.jsonData[i].id){
-						jsonPOST.push({level_Id:$scope.jsonData[i].id,level_index:$scope.jsonData[i].level_index,user_id:$scope.jsonData[i].user_id});
+						jsonPOSTtemp.push({id:$scope.jsonData[i].id,index:$scope.jsonData[i].level_index});
 					} 
+				}
+
+				jsonPOST=[];
+				console.log(jsonPOSTtemp);
+				for (i=0;i<(jsonPOSTtemp.length*2);i++){
+
+					if(i<jsonPOSTtemp.length){
+						jsonPOST.push({id:jsonPOSTtemp[i].id,index:(jsonPOSTtemp[i].index+1000000)})
+					}else{
+						jsonPOST.push(jsonPOSTtemp[i-jsonPOSTtemp.length]);
+					}
 				}
 				/*
 				jsonPOST=$scope.jsonData.map(function(x,i){
@@ -62,7 +73,19 @@ listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,
 				});*/
 				//console.log($scope.jsonData);
 				console.log(jsonPOST);
-				$http.post("/admin/levels/getjson",jsonPOST);//enviamos via post el array nuevo...
+				$http.put("/api/v1/levels/index/update",jsonPOST).then(function(response){
+					$scope.init();
+					$scope.jsonData=[];
+					if (response.data.length==0){
+						document.getElementById('noHayNiveles').className="";
+					}else{
+						$scope.jsonData=response.data.data.map(function(level){
+							var obj=level;
+							return obj;
+						});
+					}
+				});//enviamos via post el array nuevo...
+				
 				isChange=false;//ponemos en sin cambios para cambios posterio
 			}
 		}
@@ -75,13 +98,13 @@ listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,
 	};
 	$http({
 		method:'GET',
-		url:'/admin/levels/getjson'
+		url:'/api/v1/levels/'
 	}).then(function(response){
 		$scope.init();
 		if (response.data.length==0){
 			document.getElementById('noHayNiveles').className="";
 		}else{
-			$scope.jsonData=response.data.map(function(level){
+			$scope.jsonData=response.data.data.map(function(level){
 			var obj=level;
 			return obj;
 		});
@@ -91,5 +114,33 @@ listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,
 	$scope.showLessons=function(indexList,idLevel){
 		console.log("idLevel:"+idLevel+" IndexList:"+indexList);
 	};
+	$scope.deleteItem=function(id){
+		// console.log(id);
+		$window.swal({   title: "Eliminar",
+		   	text: "Seguro deseas eliminar este nivel?",
+	        type: "info", 
+	        showCancelButton: true, 
+	        closeOnConfirm: false, 
+	        showLoaderOnConfirm: true,
+		    }, 
+		    function(){  
+		    	var tempoUptateIndex=[]
+		    	for (i=(id);i<$scope.jsonData.length;i++){
+		    		var tempoData=$scope.jsonData[i];
+		    		tempoData.level_index--;
+		    		tempoUptateIndex.push(tempoData);
+		    	}
+		    	var finalArray=[];
+		    	for (i=0;i<tempoUptateIndex.length;i++){
+		    		finalArray.push({id:tempoUptateIndex[i].id,index:tempoUptateIndex[i].level_index});
+		    	}
+		    	var tempoDELETE={params:finalArray};
+		    	console.log(tempoDELETE);	
+		    	$http.delete("/api/v1/levels/"+id,tempoDELETE).then(function(response){
+		    		console.log(response);
+		    	});
+		     setTimeout(function(){     swal("Ajax request finished!");   }, 2000);
 
+		    });
+	};
 }]);

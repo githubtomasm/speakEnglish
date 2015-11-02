@@ -52,7 +52,7 @@
 
 			</style>
 
-			<div ng-app="listaApp" ng-controller="li-ctrl">
+			<div id="app" ng-app="listaApp" ng-controller="li-ctrl">
 				
 			<table class="table table-hover">
 				<thead>
@@ -81,7 +81,8 @@
             			<td  style="cursor:move" >{[{$index+1}]}</td>
 						<td >{[{level.title}]}</td>
 						<td >{[{level.description}]}</td>
-						<td ><button go-click="/admin/levels/{[{level.id}]}/edit">&#x270E;</button><button>&#x2718;</button></td>	
+						<td ><button go-click="/admin/levels/{[{level.id}]}/edit">&#x270E;</button>
+						<button ng-click="deleteItem(level.id)">&#x2718;</button></td>	
 					</tr>
 					<tr ng-if="level.expanded" ng-repeat-end="">
             			<td  colspan="5">

@@ -40,13 +40,14 @@ class LevelRequest extends Request
     public function rules()
     {
 
+        $inputs = $this->capture()->all();
 
-        $rules = [];    
+        $rules = [];   
+
+
 
         # validate if is a ajax request    
-        if ( $this->ajax() ){
-
-            $inputs = $this->capture()->all();
+        // if ( $this->ajax() ){
 
 
             # get the request method
@@ -76,6 +77,8 @@ class LevelRequest extends Request
                 // UPDATE LEVEL INDEX FROM levels/index route
                 case 'PUT': 
                 {
+
+
                     if( isset( $inputs['levels'] ) ){
 
                         foreach ($inputs['levels'] as $key => $level) {
@@ -86,6 +89,20 @@ class LevelRequest extends Request
                         }
 
                     }
+
+                    return $rules;
+                }
+
+                case 'DELETE':
+                {
+                    if( $inputs && count($inputs)){
+
+                        foreach ($inputs as $key => $value) {
+                            $rule['id' . $key ] = $value;
+                            $rule['index' . $key ] = $value;
+                        }
+
+                    } 
                 }
 
 
@@ -121,15 +138,7 @@ class LevelRequest extends Request
 
             endswitch;
 
-        }
-
-
-
-        # regular http requests 
-        $rules =  [
-            'title'         => 'required|min:3', // required with min legth of 3 chars
-            'description'   => 'required',
-        ];
+        //}
 
         return $rules;
 

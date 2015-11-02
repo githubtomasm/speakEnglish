@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 
 use App\Level;
 use App\Lesson;
+use Illuminate\Http\Request;
+
+use App\Http\Requests\LevelRequest;
 
 
 class ApiLevelsController extends ApiController
@@ -27,12 +30,7 @@ class ApiLevelsController extends ApiController
     public function index()
     {
 
-        # fetch all levels and associated lessons for each level         
-        $level = Level::with(array( 'lessons' => function ( $query ) {
-
-            $query->addSelect(array('id', 'level_id', 'title', 'description'));
-        
-        }))->orderBy('level_index', 'ASC')->get(['id', 'user_id', 'level_index', 'title', 'description']);
+        $level = $this->getAllLevels();
 
 
         # return view data        
@@ -41,6 +39,18 @@ class ApiLevelsController extends ApiController
 
 
 
+
+    public function getAllLevels()
+    {
+
+        # fetch all levels and associated lessons for each level         
+        return $level = Level::with(array( 'lessons' => function ( $query ) {
+
+            $query->addSelect(array('id', 'level_id', 'title', 'description'));
+        
+        }))->orderBy('level_index', 'ASC')->get(['id', 'user_id', 'level_index', 'title', 'description']);
+
+    }
 
 
     /**
@@ -227,18 +237,27 @@ class ApiLevelsController extends ApiController
 
         $inputs = $request->all();
 
+
         foreach ( $inputs as $key => $levelToUpdate ) {
 
             $level = Level::find( $levelToUpdate['id'] );
 
+
             if( ! $level ){ 
 
-                $this->responseNotFound('Nivel no encontrado, cambios no guardados');
+                return $this->responseNotFound('Nivel no encontrado, cambios no guardados');
 
             }
 
             $level->level_index =  $levelToUpdate['index']; 
-        }           
+            $level->save();
+        }
+
+
+        $levelSorts = $this->getAllLevels();
+
+        return $this->responseSuccess('Indice de Nivel actualizado exitosamente', $levelSorts );
+
     }
 
 
@@ -251,10 +270,16 @@ class ApiLevelsController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
 
-        $level = Level::find($id);
+
+
+        $inputs = $request->all();
+
+        $level = Level::findorFail($id);
+
+        
 
         if( ! $level  ){
 
@@ -262,15 +287,36 @@ class ApiLevelsController extends ApiController
 
         }
 
-        $level->delete();
 
         $lessons = $level->lessons()->get();
 
-        foreach ($lessons as $lesson ) {
+        if( $lessons ){
 
-            $lesson->level_id = null;
+            foreach ($lessons as $lesson ) {
+
+                $lesson->level_id = null;
+
+            }
+            
+        }
+
+
+
+
+
+        if( $inputs && count($inputs) ){
+
+            foreach ($inputs as $key => $currentLevel ) {
+                
+                $level = Level::findOrFail($currentLevel['id']);
+
+                $level->level_index = $currentLevel['index'];                  
+
+            }
 
         }
+
+
 
         return $this->responseSuccess('Nivel Borrado exitosamente');
 

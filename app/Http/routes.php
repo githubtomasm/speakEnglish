@@ -130,9 +130,9 @@ Route::group( [ 'prefix' => 'api/v1' ],
 
 	function () {
 
-		Route::put('levels', ['uses' => 'ApiLevelsController@updaIndex']);
 		
 		Route::resource('levels', 'ApiLevelsController', ['except' => array( 'show' )]);
+		Route::put('levels/index/update', ['uses' => 'ApiLevelsController@updaIndex']);
 
 		Route::resource('lessons', 'ApiLessonsController');		
 
