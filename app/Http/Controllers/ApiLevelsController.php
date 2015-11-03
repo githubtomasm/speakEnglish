@@ -287,25 +287,32 @@ class ApiLevelsController extends ApiController
 
 
         $inputs = $request->all();
-        
+
 
         # update the levels indexes;
         if( $inputs && count($inputs) ){
 
-            foreach ($inputs as $key => $currentLevel ) {
+            foreach ($inputs as $key => $currentLevelJson ) {
+
+                $currentLevel = json_decode($currentLevelJson);
 
                 $level = Level::findOrFail($currentLevel->id);
 
                 $level->level_index = $currentLevel->index;                  
 
+                $level->save();
+
+
             }
 
         }
+
         
 
-        # return levels array to repopulate table
-        $levels = $this->getAllLevels();        
 
+        # return levels array to repopulate table
+        
+        $levels = $this->getAllLevels();        
 
         return $this->responseSuccess('Nivel Borrado exitosamente', $levels);
 
