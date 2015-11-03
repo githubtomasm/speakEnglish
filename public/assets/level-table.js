@@ -132,7 +132,7 @@ listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,
 		    	}
 		    	var finalArray=[];
 		    	for (i=0;i<tempoUptateIndex.length;i++){
-		    		finalArray.push({id:tempoUptateIndex[i].id,index:tempoUptateIndex[i].level_index});
+		    		finalArray.push({id:tempoUptateIndex[i].id,index:(tempoUptateIndex[i].level_index-1)});
 		    	}
 		    	var tempoDELETE={params:finalArray};
 		    	console.log(tempoDELETE);	

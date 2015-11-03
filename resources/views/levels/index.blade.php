@@ -58,9 +58,10 @@
 				<thead>
 					<tr>
 						<th width="5%"></th>
+						<th width="5%">id</th>
 						<th width="5%">Indice</th>
 						<th width="30%">Título</th>
-						<th width="40%">Descripción</th>
+						<th width="35%">Descripción</th>
 						<th width="20">Acciones</th>
 					</tr>
 				 	<tr ng-hide="loadDocument" >
@@ -78,6 +79,7 @@
 			              <button ng-if="level.expanded" ng-click="level.expanded = false; sortableOptions.disabled=false">-</button>
 			              <button ng-if="!level.expanded" ng-click="level.expanded = true; sortableOptions.disabled=true">+</button>
 			            </td>
+			            <td>{[{level.id}]}</td>
             			<td  style="cursor:move" >{[{$index+1}]}</td>
 						<td >{[{level.title}]}</td>
 						<td >{[{level.description}]}</td>
