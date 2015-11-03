@@ -99,6 +99,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
+
         factory(App\User::class)->create([
             'first_name'        => 'loreias',
             'last_name'         => 'Mendoza',
@@ -106,6 +107,13 @@ class DatabaseSeeder extends Seeder
             'password'          => bcrypt('loreias'),
             'remember_token'    => str_random(10),        
         ]);
+
+        $alex = App\User::find(11);
+        $alex->roles()->save(App\Role::find(4));
+
+
+        $dj = App\User::find(12);
+        $dj->roles()->save(App\Role::find(4));
 
 
         factory(App\Lesson::class, 10)->create();
