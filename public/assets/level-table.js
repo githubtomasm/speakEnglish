@@ -137,10 +137,21 @@ listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,
 		    	var tempoDELETE={params:finalArray};
 		    	console.log(tempoDELETE);	
 		    	$http.delete("/api/v1/levels/"+id,tempoDELETE).then(function(response){
-		    		console.log(response);
-		    	});
-		     setTimeout(function(){     swal("Ajax request finished!");   }, 2000);
+					$scope.init();
+					if (response.data.length==0){
+						document.getElementById('noHayNiveles').className="";
+					}else{
+						$scope.jsonData=response.data.data.map(function(level){
+							var obj=level;
+							return obj;
+						});
+					}
+				});
+			
+		    	setTimeout(function(){
+    				swal("Nivel Eliminado");
+  				}, 2000);
+			});
+	}
+}]);//close controller
 
-		    });
-	};
-}]);
