@@ -283,12 +283,11 @@ class ApiLevelsController extends ApiController
         }
 
 
-        //$level->delete();
+        $level->delete();
 
 
         $inputs = $request->all();
         
-        dd($inputs);
 
         # update the levels indexes;
         if( $inputs && count($inputs) ){
