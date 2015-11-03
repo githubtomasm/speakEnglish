@@ -65,15 +65,15 @@
 						<th width="20">Acciones</th>
 					</tr>
 				 	<tr ng-hide="loadDocument" >
-				 		<td colspan="5"><center>Loading</center></td>
+				 		<td colspan="6"><center>Loading</center></td>
 				 	</tr>
 					<tr class="hiddenItem" id="noHayNiveles">
-						<td colspan="5">
+						<td colspan="6">
 						No existen niveles aún: <a href="/admin/levels/create">Crear un nuevo Nivel</a>
 						</td>
 					</tr>
 				</thead>
-				<tbody id="listaTabla" ui-sortable="sortableOptions" ng-model="jsonData">
+				<tbody class="hiddenItem" id="listaTabla" ui-sortable="sortableOptions" ng-model="jsonData">
 					<tr id="{[{'levelPos'+$index}]}" ng-repeat-start="level in jsonData | orderBy:level_index" >
 						<td>
 			              <button ng-if="level.expanded" ng-click="level.expanded = false; sortableOptions.disabled=false">-</button>
@@ -87,7 +87,7 @@
 						<button ng-click="deleteItem(level.id)">&#x2718;</button></td>	
 					</tr>
 					<tr ng-if="level.expanded" ng-repeat-end="">
-            			<td  colspan="5">
+            			<td  colspan="6">
             				<ol ng-if="level.lessons.length > 0">
             					<li ng-repeat="lessons in level.lessons"> {[{ lessons.title }]}</li>
             				</ol>
