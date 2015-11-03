@@ -74,7 +74,6 @@ class DatabaseSeeder extends Seeder
 
 
 
-
         // $randomIndex = $this->faker->numberBetween(1,4);
         factory(App\User::class, 10)->create()->each( function( $u, $key ) {
             
@@ -90,6 +89,23 @@ class DatabaseSeeder extends Seeder
             $u->roles()->save( App\Role::find(rand(1,4)) );    
             
         });
+
+        factory(App\User::class)->create([
+            'first_name'        => 'alex',
+            'last_name'         => 'Pelotudo',
+            'email'             => 'alex@gmail.com',
+            'password'          => bcrypt('asdf'),
+            'remember_token'    => str_random(10),        
+        ]);
+
+
+        factory(App\User::class)->create([
+            'first_name'        => 'loreias',
+            'last_name'         => 'Mendoza',
+            'email'             => 'loreias@hotmail.com',
+            'password'          => bcrypt('loreias'),
+            'remember_token'    => str_random(10),        
+        ]);
 
 
         factory(App\Lesson::class, 10)->create();
