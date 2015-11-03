@@ -293,8 +293,6 @@ class ApiLevelsController extends ApiController
 
             foreach ($inputs as $key => $currentLevel ) {
 
-                dd($currentLevel);
-                
                 $level = Level::findOrFail($currentLevel->id);
 
                 $level->level_index = $currentLevel->index;                  
