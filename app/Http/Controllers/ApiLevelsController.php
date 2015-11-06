@@ -148,11 +148,11 @@ class ApiLevelsController extends ApiController
         }
 
         # un assigned lessons
-        $unSignedLessons = Lesson::where('level_id', null)->get(['id', 'level_id', 'title', 'description']);
+        $unSignedLessons = Lesson::where('level_id', null)->get(['id', 'lesson_index', 'level_id', 'title', 'description']);
       
 
         # assigned lessons
-        $assignedLessons = $level->lessons()->get(['id', 'level_id', 'title', 'description']);
+        $assignedLessons = $level->lessons()->get(['id', 'level_id', 'lesson_index', 'title', 'description']);
 
         # pass a single array 
         $lessons = array_merge( $assignedLessons->toArray(), $unSignedLessons->toArray() );

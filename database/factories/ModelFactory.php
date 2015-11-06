@@ -82,6 +82,7 @@ $factory->define(App\Lesson::class, function( Faker\Generator $faker) use( $numb
 	return [
 		'title' 			=> $faker->sentence,
 		'description' 		=> $faker->sentence(5),
+		'lesson_index'		=> $faker->numberBetween(1,10),
 		'video_id'			=> str_random(10),
 		'level_id' 			=> $faker->numberBetween(0,$numberInteration),
 		'user_id' 			=> $faker->numberBetween(1,$numberInteration),

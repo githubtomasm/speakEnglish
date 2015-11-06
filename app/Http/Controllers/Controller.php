@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use Illuminate\Support\Facades\Auth;
 
-
+use App\User;
 
 abstract class Controller extends BaseController
 {
@@ -27,12 +27,11 @@ abstract class Controller extends BaseController
     public function __construct ()
     {
 
-    	$this->user = Auth::user();
+    	$this->user =  Auth::user();
 
     	view()->share( 'is_user_logged_in', Auth::check() );
 
-    	view()->share( 'user', $this->user );
-
+        view()->share( 'user', $this->user );
     }
 
 }
