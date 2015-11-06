@@ -18,7 +18,7 @@ class CreateLessonsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('video_id')->unique();
-            $table->integer('lesson_index')->unique();
+            $table->integer('lesson_index');
 
             $table->unsignedInteger('level_id')->nullable();
             $table->integer('user_id')->unsigned();

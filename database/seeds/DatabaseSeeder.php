@@ -115,18 +115,8 @@ class DatabaseSeeder extends Seeder
         $dj = App\User::find(12);
         $dj->roles()->save(App\Role::find(4));
 
-
-
-        for ($i=0; $i < 10; $i++) { 
-            
-            factory(App\Lesson::class)->create([
-                'lesson_index' => $i+1,
-            ]);
-        
-        }
-
-
-
+        factory(App\Lesson::class, 10)->create();
+       
         Model::reguard();
     }
 
