@@ -124,23 +124,43 @@ listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,
 	        showLoaderOnConfirm: true,
 		    }, 
 		    function(){  
-		    	var tempoUptateIndex=[]
-		    	for (i=(id);i<$scope.jsonData.length;i++){
+		    	var tempoUptateIndex=[];
+		    	var indexInTheArrayDeleteItem=0;
+		    	for (i=0;i<$scope.jsonData.length;i++){
+		    		if ($scope.jsonData[i].id==id){
+		    			indexInTheArrayDeleteItem=i+1;
+		    			break;
+		    		}
+		    	}
+
+		    	for (i=(indexInTheArrayDeleteItem);i<$scope.jsonData.length;i++){ //con esta se obtienen los elementos que seran actualizados por delete
 		    		var tempoData=$scope.jsonData[i];
 		    		tempoData.level_index--;
 		    		tempoUptateIndex.push(tempoData);
 		    	}
-		    	var finalArray=[];
+		    	var finalArray=[]; //formateamos el array a los campos que el api espera
 		    	for (i=0;i<tempoUptateIndex.length;i++){
 		    		finalArray.push({id:tempoUptateIndex[i].id,index:(tempoUptateIndex[i].level_index)});
 		    	}
-		    	var tempoDELETE={params:finalArray};
-		    	console.log(tempoDELETE);	
-		    	$http.delete("/api/v1/levels/"+id,tempoDELETE).then(function(response){
-		    		console.log(response);
-		    	});
-		     setTimeout(function(){     swal("Ajax request finished!");   }, 2000);
+		    	
+		    	console.log(finalArray);	
+		    	$http.delete("/api/v1/levels/"+id,{params:finalArray}).then(function(response){
+					
+					if (response.data.length==0){
+						document.getElementById('noHayNiveles').className="";
+					}else{
+						$scope.jsonData=[];
+						$scope.jsonData=response.data.data.map(function(level){
+							var obj=level;
+							return obj;
+						});
+					}
+				});
+			
+		    	setTimeout(function(){
+    				swal("Nivel Eliminado");
+  				}, 2000);
+			});
+	}
+}]);//close controller
 
-		    });
-	};
-}]);
