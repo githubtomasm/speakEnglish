@@ -26,14 +26,14 @@ editApp.controller('editCtrl',['$scope','$http','$window',function($scope,$http,
 $scope.hola="hola mundo";
 
 //modelo principal
-var levelEditing = $window.level_index;
+var levelEditing = $window.levelId;
 $scope.levelData;
 var lessonsData=[];
 $scope.levelLessons=[];
 $scope.unassignedLessons=[];
 
 //http requets inicial
-
+//console.log('/api/v1/levels/'+levelEditing+'/edit/');
 $http({
 	method:'GET',
 	url:'/api/v1/levels/'+levelEditing+'/edit/'
@@ -68,5 +68,36 @@ function separarLecciones(){
 	//console.log($scope.levelLessons,$scope.unassignedLessons);
 }//close separarLecciones
 
-$scope.sortableOptions
+
+
+$scope.sortableOptions={
+	start:function(){
+		console.log("StartDrag");
+		if (contador==0){
+			makeFullOutdated();
+		}
+	},
+	update:function(){
+		isUpdate=true;
+		console.log("Update");
+	},
+	stop:function(){
+		rewriteVectos();
+		makeFullUpdated();
+		compareFulls();	
+		contador=0;
+	},
+	placeholder:'lessons',
+	connectWith:'.lessonsConnect'
+}
+
+//métodos para el ordenamiento y asociacion:
+var contador=0;
+
+function rewriteVectos(){}
+function makeFullOutdated(){}
+function makeFullUpdated(){}
+function compareFulls(){}
+function sendChanges(){}
+
 }]);//close controller

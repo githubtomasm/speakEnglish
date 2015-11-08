@@ -27,14 +27,15 @@
 @section('content')
 	
 	<script type="text/javascript">
-	var level_index={{ $level->level_index }};
+	var levelId={{ $level->id }};
 	//console.log(level_index);
 	</script>
 <div ng-app="editApp" ng-controller="editCtrl" id="app">
 	<div class="jumbotron">
 
 	  	<h1>Nivel # {{ $level->level_index }}</h1>
-		<p>Editar Nivel, Agregar Lecciones, Assets, etc </p>		
+	  	<p> {{$level->title}}</p>
+		<h5>Editar Nivel, Agregar Lecciones, Assets, etc </h5>		
 
 	</div>
 
@@ -69,7 +70,7 @@
 						</td>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody ui-sortable='sortableOptions' class="lessonsConnect" ng-model="levelLessons">
 					<tr ng-repeat="lesson in levelLessons | orderBy:'lesson_index' ">
 						<td>
 							{[{lesson.id}]}
@@ -98,7 +99,7 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody ui-sortable='sortableOptions' class="lessonsConnect" ng-model="unassignedLessons">
 					<tr ng-repeat="lesson in unassignedLessons | orderBy:id">
 						<td>
 							{[{lesson.id}]}

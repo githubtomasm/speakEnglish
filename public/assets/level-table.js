@@ -163,4 +163,4 @@ listaApp.controller('li-ctrl',['$scope','$http','$window',function($scope,$http,
 			});
 	}
 }]);//close controller
-
+ 
